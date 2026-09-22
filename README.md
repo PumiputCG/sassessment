@@ -13,14 +13,14 @@ An annual performance review system that scores each employee by weighted catego
 - พนักงานประเมินตัวเองก่อน แล้วหัวหน้าจึงให้คะแนน
 - คำนวณคะแนนตามน้ำหนักแต่ละหมวด รวมโบนัสและการหักคะแนน แล้วออกมาเป็นเกรด
 - สรุปผลและส่งออกเป็น Excel พร้อมประวัติย้อนหลังของแต่ละคน
-- ลืมรหัสผ่านก็รีเซ็ตเองได้
+
 
 * Open review cycles and lock finished ones as read-only so results cannot be changed later
 * Import employees from Excel with a downloadable template
 * Employees assess themselves first, then managers score them
 * Weighted scoring across categories, including bonuses and deductions, turned into a grade
 * Summaries and Excel exports with each person's history
-* Self-service password reset
+
 
 ## Tech Stack
 
