@@ -1,80 +1,49 @@
 # SAssessment
 
-**TH:** ระบบประเมินผลพนักงาน — จากไฟล์ Excel ที่ HR ต้องรวมเองทุกรอบ กลายเป็นระบบที่จบในตัว
-**EN:** Employee performance reviews — turning a spreadsheet HR had to reassemble every cycle into a system that finishes the job itself.
+## SAssessment คืออะไร / About
 
-`PHP 8.2` · `Laravel 12` · `MySQL` · `Tailwind CSS 4` · `Vite 7`
+ระบบประเมินผลพนักงานประจำปีที่คิดคะแนนตามน้ำหนักของแต่ละหมวด เช่น Attendance, Individual Performance, Department OKR และ Company OKR แล้วรวมออกมาเป็นคะแนนสุดท้ายพร้อมเกรด ผลงานนี้ได้รับรางวัลชนะเลิศจากกิจกรรม Kaizen ภายในองค์กร
 
----
+An annual performance review system that scores each employee by weighted categories such as Attendance, Individual Performance, Department OKR and Company OKR, then turns them into a final score and grade. It won first place in the company's internal Kaizen competition.
 
-## 🇹🇭 ภาษาไทย
+## ทำอะไรได้บ้าง / Features
 
-### ทำไมต้องมี
+- เปิดรอบประเมิน และปิดรอบเป็นแบบอ่านอย่างเดียวเมื่อจบ เพื่อไม่ให้แก้ผลย้อนหลัง
+- นำเข้ารายชื่อพนักงานจาก Excel โดยมี template ให้ดาวน์โหลด
+- พนักงานประเมินตัวเองก่อน แล้วหัวหน้าจึงให้คะแนน
+- คำนวณคะแนนตามน้ำหนักแต่ละหมวด รวมโบนัสและการหักคะแนน แล้วออกมาเป็นเกรด
+- สรุปผลและส่งออกเป็น Excel พร้อมประวัติย้อนหลังของแต่ละคน
+- ลืมรหัสผ่านก็รีเซ็ตเองได้
 
-การประเมินพนักงานรอบหนึ่งคือ HR ต้องส่ง Excel ออกไป รอคนกรอกกลับมา แล้วมานั่งรวมเอง ใครยังไม่ส่งก็ต้องไล่ตาม พอรวมเสร็จจะดูย้อนหลังว่ารอบที่แล้วคนนี้ได้เท่าไหร่ ก็ต้องไปหาไฟล์เก่า
+* Open review cycles and lock finished ones as read-only so results cannot be changed later
+* Import employees from Excel with a downloadable template
+* Employees assess themselves first, then managers score them
+* Weighted scoring across categories, including bonuses and deductions, turned into a grade
+* Summaries and Excel exports with each person's history
+* Self-service password reset
 
-ระบบนี้ทำให้ทั้งวงจรจบในที่เดียว — เปิดรอบ ให้คะแนน ปิดรอบ ดูสรุป เทียบย้อนหลัง
+## Tech Stack
 
-### ทำอะไรได้บ้าง
+**Backend:** PHP 8, Laravel 12, Laravel Excel
 
-- **จัดการรอบประเมิน (Cycle)** — เปิด/ปิดรอบ และล็อกรอบเป็นโหมดอ่านอย่างเดียวเมื่อจบ ไม่ให้ใครแก้ย้อนหลัง
-- **ประเมินตัวเอง (Self Assessment)** — พนักงานกรอกส่วนของตัวเองก่อน
-- **ให้คะแนนโดยหัวหน้า** — พร้อมโบนัส/หักคะแนนที่รองรับค่าติดลบได้
-- **นำเข้าพนักงานจาก Excel** — มีไฟล์ template ให้ดาวน์โหลด ลดการกรอกมือ
-- **ค้นหาพนักงาน** — ดึงข้อมูลจาก Employee Master
-- **สรุปผลและส่งออก** — ออกรายงานพร้อมประวัติย้อนหลังต่อคน
-- **ลืมรหัสผ่าน** — รีเซ็ตได้เอง ไม่ต้องรบกวน IT
+**Frontend:** Blade, Tailwind CSS, Bootstrap 5, Bootstrap Icons, AOS, Vite
 
-### โมเดลข้อมูล
+**Database:** MySQL
 
-```
-Cycle                  → รอบประเมิน (เปิด/ปิด/อ่านอย่างเดียว)
-Employee               → พนักงานที่นำเข้ามา
-SelfEmployee           → คะแนนที่พนักงานประเมินตัวเอง
-ExportEmployee         → ผลประเมินที่สรุปแล้ว
-ExportEmployeeHistory  → ประวัติย้อนหลังทุกรอบ
-AppUser                → บัญชีผู้ใช้และบทบาท
-```
+## ติดตั้ง / Installation
 
-### ติดตั้ง
+ต้องมี PHP 8.2 ขึ้นไป, Composer, Node.js และ MySQL ก่อนรัน migrate ให้แก้ค่า `DB_*` ใน `.env` ให้ตรงกับฐานข้อมูลในเครื่อง
+
+Requires PHP 8.2+, Composer, Node.js and MySQL. Set the `DB_*` values in `.env` before migrating.
 
 ```bash
-composer install && npm install
-cp .env.example .env && php artisan key:generate
-php artisan migrate && npm run build && php artisan serve
+git clone https://github.com/PumiputCG/sassessment.git
+cd sassessment
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+npm run build
+php artisan serve
 ```
-
----
-
-## 🇬🇧 English
-
-### Why it exists
-
-One review cycle used to mean HR mailing out a spreadsheet, waiting for it to come back, chasing the people who hadn't sent it, and then merging everything by hand. Wanting to know what someone scored last cycle meant digging up an old file.
-
-This closes the loop: open a cycle, score, close it, read the summary, compare against history.
-
-### What it does
-
-- **Cycle management** — open and close review periods, then lock a finished cycle to read-only so nobody edits the past
-- **Self-assessment** — employees fill in their own section first
-- **Manager scoring** — including bonus and penalty adjustments that correctly handle negative values
-- **Excel import** with a downloadable template, so nobody retypes a roster
-- **Employee lookup** against the Employee Master
-- **Summaries and exports**, with per-person history across cycles
-- **Self-service password reset** — no IT ticket required
-
-### Data model
-
-```
-Cycle                  → review period (open / closed / read-only)
-Employee               → imported roster
-SelfEmployee           → self-assessment scores
-ExportEmployee         → finalized results
-ExportEmployeeHistory  → history across every cycle
-AppUser                → accounts and roles
-```
-
-### Note
-
-Code only. No database, no uploads, no real employee records.
